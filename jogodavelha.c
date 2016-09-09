@@ -20,24 +20,9 @@ int jogadaEhValida(char matriz[3][3], int jogada){
         return FALSE;  
 }
 
-//algoritmo minmax
-/*-3 -> jogada ilegal
--2 -> AI perde
-0 -> empate
-3 -> AI ganha*/
-int minmax(char matriz[3][3], int maquinaJoga){
-    char auxmatriz[3][3];
-    int auxpossibilidades[9];
-    int i, j, min;
-    for(i=0; i<3; i++)
-        for(j=0; j<3; j++)
-            auxmatriz[i][j] = matriz[i][j];
-    for(i=0; i<9;i++)
-        auxpossibilidades[i] = -3;
-    min = 5;
-    if(!maquinaJoga){
-        //verifica se X ganha
-        if ((matriz[0][0] == 'X' && matriz[1][0] == 'X' && matriz[2][0] == 'X') ||
+//pontua o cenario final do jogo
+int gameOver(char matriz[3][3]){
+    if ((matriz[0][0] == 'X' && matriz[1][0] == 'X' && matriz[2][0] == 'X') ||
             (matriz[0][1] == 'X' && matriz[1][1] == 'X' && matriz[2][1] == 'X') ||
             (matriz[0][2] == 'X' && matriz[1][2] == 'X' && matriz[2][2] == 'X') ||
             (matriz[0][0] == 'X' && matriz[0][1] == 'X' && matriz[0][2] == 'X') ||
@@ -45,185 +30,9 @@ int minmax(char matriz[3][3], int maquinaJoga){
             (matriz[2][0] == 'X' && matriz[2][1] == 'X' && matriz[2][2] == 'X') ||
             (matriz[0][0] == 'X' && matriz[1][1] == 'X' && matriz[2][2] == 'X') ||
             (matriz[0][2] == 'X' && matriz[1][1] == 'X' && matriz[2][0] == 'X')){
-                return -2;  //é ruim pra AI
+                return -1;  //é ruim pra AI
             }
-        /*if(matriz[0][0] == 'O' && matriz[0][1] == 'O'){
-            if(jogadaEhValida(matriz, 13)){
-                return 0;
-            }
-        }
-        if(matriz[0][0] == 'O' && matriz[0][2] == 'O'){
-            if(jogadaEhValida(matriz, 12)){
-                return 0;
-            }
-        }
-        if(matriz[0][1] == 'O' && matriz[0][2] == 'O'){
-            if(jogadaEhValida(matriz, 11)){
-                return 0;
-            }
-        }
-        if(matriz[1][0] == 'O' && matriz[1][1] == 'O'){
-            if(jogadaEhValida(matriz, 23)){
-                return 0;
-            }
-        }
-        if(matriz[1][0] == 'O' && matriz[1][2] == 'O'){
-            if(jogadaEhValida(matriz, 22)){
-                return 0;
-            }
-        }
-        if(matriz[1][1] == 'O' && matriz[1][2] == 'O'){
-            if(jogadaEhValida(matriz, 21)){
-                return 0;
-            }
-        }
-        if(matriz[2][0] == 'O' && matriz[2][1] == 'O'){
-            if(jogadaEhValida(matriz, 33)){
-                return 0;
-            }
-        }
-
-        if(matriz[2][0] == 'O' && matriz[2][2] == 'O'){
-            if(jogadaEhValida(matriz, 32)){
-                return 0;
-            }
-        }
-        if(matriz[2][1] == 'O' && matriz[2][2] == 'O'){
-            if(jogadaEhValida(matriz, 31)){
-                return 0;
-            }
-        }
-
-        if(matriz[0][0] == 'O' && matriz[1][0] == 'O'){
-            if(jogadaEhValida(matriz, 31)){
-                return 0;
-            }
-        }
-        if(matriz[0][0] == 'O' && matriz[2][0] == 'O'){
-            if(jogadaEhValida(matriz, 21)){
-                return 0;
-            }
-        }
-        if(matriz[1][0] == 'O' && matriz[2][0] == 'O'){
-            if(jogadaEhValida(matriz, 11)){
-                return 0;
-            }
-        }
-        if(matriz[0][1] == 'O' && matriz[1][1] == 'O'){
-            if(jogadaEhValida(matriz, 32)){
-                return 0;
-            }
-        }
-        if(matriz[0][1] == 'O' && matriz[2][1] == 'O'){
-            if(jogadaEhValida(matriz, 22)){
-                return 0;
-            }
-        }
-        if(matriz[1][1] == 'O' && matriz[2][1] == 'O'){
-            if(jogadaEhValida(matriz, 12)){
-                return 0;
-            }
-        }
-        if(matriz[0][2] == 'O' && matriz[1][2] == 'O'){
-            if(jogadaEhValida(matriz, 33)){
-                return 0;
-            }
-        }
-        if(matriz[0][2] == 'O' && matriz[2][2] == 'O'){
-            if(jogadaEhValida(matriz, 23)){
-                return 0;
-            }
-        }
-        if(matriz[1][2] == 'O' && matriz[2][2] == 'O'){
-            if(jogadaEhValida(matriz, 13)){
-                return 0;
-            }
-        }
-        if(matriz[0][0] == 'O' && matriz[1][1] == 'O'){
-            if(jogadaEhValida(matriz, 33)){
-                return 0;
-            }
-        }
-        if(matriz[0][0] == 'O' && matriz[2][2] == 'O'){
-            if(jogadaEhValida(matriz, 22)){
-                return 0;
-            }
-        }
-        if(matriz[1][1] == 'O' && matriz[2][2] == 'O'){
-            if(jogadaEhValida(matriz, 11)){
-                return 0;
-            }
-        }
-        if(matriz[2][0] == 'O' && matriz[1][1] == 'O'){
-            if(jogadaEhValida(matriz, 13)){
-                return 0;
-            }
-        }
-        if(matriz[2][0] == 'O' && matriz[0][2] == 'O'){
-            if(jogadaEhValida(matriz, 22)){
-                return 0;
-            }
-        }
-        if(matriz[1][1] == 'O' && matriz[0][2] == 'O'){
-            if(jogadaEhValida(matriz, 31)){
-                return 0;
-            }
-        }*/
-        
-        //para cada jogada possivel, poe x la e chama o algoritmo de novo
-        //Aqui tem que olhar a jogada menos pior
-        if(jogadaEhValida(matriz, 11)){
-            auxmatriz[0][0] = 'X';
-            auxpossibilidades[0] =  minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[0][0] = ' ';
-        }
-        if(jogadaEhValida(matriz, 12)){
-            auxmatriz[0][1] = 'X';
-            auxpossibilidades[1] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[0][1] = ' ';
-        }
-        if(jogadaEhValida(matriz, 13)){
-            auxmatriz[0][2] = 'X';
-            auxpossibilidades[2] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[0][2] = ' ';
-        }
-        if(jogadaEhValida(matriz, 21)){
-            auxmatriz[1][0] = 'X';
-            auxpossibilidades[3] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[1][0] = ' ';
-        }
-        if(jogadaEhValida(matriz, 22)){
-            auxmatriz[1][1] = 'X';
-            auxpossibilidades[4] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[1][1] = ' ';
-        }
-        if(jogadaEhValida(matriz, 23)){
-            auxmatriz[1][2] = 'X';
-            auxpossibilidades[5] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[1][2] = ' ';
-        }
-        if(jogadaEhValida(matriz, 31)){
-            auxmatriz[2][0] = 'X';
-            auxpossibilidades[6] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[2][0] = ' ';
-        }
-        if(jogadaEhValida(matriz, 32)){
-            auxmatriz[2][1] = 'X';
-            auxpossibilidades[7] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[2][1] = ' ';
-        }
-        if(jogadaEhValida(matriz, 33)){
-            auxmatriz[2][2] = 'X';
-            auxpossibilidades[7] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[2][2] = ' ';
-            //Verifica se o jogador humano ganhou
-        
-        }
-    }
-    else{
-        //aqui a maquina joga, poe a O e ve se ela ganha
-        //verifica se O ganha
-        if ((matriz[0][0] == 'O' && matriz[1][0] == 'O' && matriz[2][0] == 'O') ||
+       else if ((matriz[0][0] == 'O' && matriz[1][0] == 'O' && matriz[2][0] == 'O') ||
             (matriz[0][1] == 'O' && matriz[1][1] == 'O' && matriz[2][1] == 'O') ||
             (matriz[0][2] == 'O' && matriz[1][2] == 'O' && matriz[2][2] == 'O') ||
             (matriz[0][0] == 'O' && matriz[0][1] == 'O' && matriz[0][2] == 'O') ||
@@ -231,183 +40,112 @@ int minmax(char matriz[3][3], int maquinaJoga){
             (matriz[2][0] == 'O' && matriz[2][1] == 'O' && matriz[2][2] == 'O') ||
             (matriz[0][0] == 'O' && matriz[1][1] == 'O' && matriz[2][2] == 'O') ||
             (matriz[0][2] == 'O' && matriz[1][1] == 'O' && matriz[2][0] == 'O')){
-                return 2; //é bom para a AI
+                return 1; //é bom para a AI
             }
-        //fecha as possibilidades de X ganhar
-        /*if(matriz[0][0] == 'X' && matriz[0][1] == 'X'){
-            if(jogadaEhValida(matriz, 13)){
-                return 0;
-            }
-        }
-        if(matriz[0][0] == 'X' && matriz[0][2] == 'X'){
-            if(jogadaEhValida(matriz, 12)){
-                return 0;
-            }
-        }
-        if(matriz[0][1] == 'X' && matriz[0][2] == 'X'){
-            if(jogadaEhValida(matriz, 11)){
-                return 0;
-            }
-        }
-        if(matriz[1][0] == 'X' && matriz[1][1] == 'X'){
-            if(jogadaEhValida(matriz, 23)){
-                return 0;
-            }
-        }
-        if(matriz[1][0] == 'X' && matriz[1][2] == 'X'){
-            if(jogadaEhValida(matriz, 22)){
-                return 0;
-            }
-        }
-        if(matriz[1][1] == 'X' && matriz[1][2] == 'X'){
-            if(jogadaEhValida(matriz, 21)){
-                return 0;
-            }
-        }
-        if(matriz[2][0] == 'X' && matriz[2][1] == 'X'){
-            if(jogadaEhValida(matriz, 33)){
-                return 0;
-            }
+        else return 0; //deu empate ou nao acabou ainda
+}
+
+//converte um vetor linear nas posições do tabuleiro
+int converte(int posic){
+    switch(posic){
+        case 0:
+            return 11;
+            break;
+        case 1:
+            return 12;
+            break;
+        case 2:
+            return 13;
+            break;
+        case 3:
+            return 21;
+            break;
+        case 4:
+            return 22;
+            break;
+        case 5:
+            return 23;
+            break;
+        case 6:
+            return 31;
+            break;
+        case 7:
+            return 32;
+            break;
+        case 8:
+            return 33;
+            break;
+    }
+}
+
+//algoritmo minmax
+/*-2 -> jogada ilegal
+-1 -> AI perde
+0 -> empate
+1 -> AI ganha*/
+int minmax(char matriz[3][3], int maquinaJoga){
+    char auxmatriz[3][3];
+    char jogador;
+    int auxpossibilidades[9];
+    int i, j, min, acabou, jogada;
+    acabou = TRUE;
+
+    if(maquinaJoga)
+        jogador = 'O';
+    else jogador = 'X';
+
+    for(i=0; i<3; i++)
+        for(j=0; j<3; j++){
+            auxmatriz[i][j] = matriz[i][j];
+            if(auxmatriz[i][j] == ' ')
+                acabou = FALSE; //pode ou nao ter acabado
         }
 
-        if(matriz[2][0] == 'X' && matriz[2][2] == 'X'){
-            if(jogadaEhValida(matriz, 32)){
-                return 0;
-            }
-        }
-        if(matriz[2][1] == 'X' && matriz[2][2] == 'X'){
-            if(jogadaEhValida(matriz, 31)){
-                return 0;
-            }
-        }
+    for(i=0; i<9;i++)
+        auxpossibilidades[i] = -2; //se ainda for -2, é porque não atualizou
 
-        if(matriz[0][0] == 'X' && matriz[1][0] == 'X'){
-            if(jogadaEhValida(matriz, 31)){
-                return 0;
-            }
-        }
-        if(matriz[0][0] == 'X' && matriz[2][0] == 'X'){
-            if(jogadaEhValida(matriz, 21)){
-                return 0;
-            }
-        }
-        if(matriz[1][0] == 'X' && matriz[2][0] == 'X'){
-            if(jogadaEhValida(matriz, 11)){
-                return 0;
-            }
-        }
-        if(matriz[0][1] == 'X' && matriz[1][1] == 'X'){
-            if(jogadaEhValida(matriz, 32)){
-                return 0;
-            }
-        }
-        if(matriz[0][1] == 'X' && matriz[2][1] == 'X'){
-            if(jogadaEhValida(matriz, 22)){
-                return 0;
-            }
-        }
-        if(matriz[1][1] == 'X' && matriz[2][1] == 'X'){
-            if(jogadaEhValida(matriz, 12)){
-                return 0;
-            }
-        }
-        if(matriz[0][2] == 'X' && matriz[1][2] == 'X'){
-            if(jogadaEhValida(matriz, 33)){
-                return 0;
-            }
-        }
-        if(matriz[0][2] == 'X' && matriz[2][2] == 'X'){
-            if(jogadaEhValida(matriz, 23)){
-                return 0;
-            }
-        }
-        if(matriz[1][2] == 'X' && matriz[2][2] == 'X'){
-            if(jogadaEhValida(matriz, 13)){
-                return 0;
-            }
-        }
-        if(matriz[0][0] == 'X' && matriz[1][1] == 'X'){
-            if(jogadaEhValida(matriz, 33)){
-                return 0;
-            }
-        }
-        if(matriz[0][0] == 'X' && matriz[2][2] == 'X'){
-            if(jogadaEhValida(matriz, 22)){
-                return 0;
-            }
-        }
-        if(matriz[1][1] == 'X' && matriz[2][2] == 'X'){
-            if(jogadaEhValida(matriz, 11)){
-                return 0;
-            }
-        }
-        if(matriz[2][0] == 'X' && matriz[1][1] == 'X'){
-            if(jogadaEhValida(matriz, 13)){
-                return 0;
-            }
-        }
-        if(matriz[2][0] == 'X' && matriz[0][2] == 'X'){
-            if(jogadaEhValida(matriz, 22)){
-                return 0;
-            }
-        }
-        if(matriz[1][1] == 'X' && matriz[0][2] == 'X'){
-            if(jogadaEhValida(matriz, 31)){
-                return 0;
-            }
-        }*/
-        
-        if(jogadaEhValida(matriz, 11)){
-            auxmatriz[0][0] = 'O';
-            auxpossibilidades[0] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[0][0] = ' ';
-        }
-        if(jogadaEhValida(matriz, 12)){
-            auxmatriz[0][1] = 'O';
-            auxpossibilidades[1] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[0][1] = ' ';
-        }
-        if(jogadaEhValida(matriz, 13)){
-            auxmatriz[0][2] = 'O';
-            auxpossibilidades[2] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[0][2] = ' ';
-        }
-        if(jogadaEhValida(matriz, 21)){
-            auxmatriz[1][0] = 'O';
-            auxpossibilidades[3] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[1][0] = ' ';
-        }
-        if(jogadaEhValida(matriz, 22)){
-            auxmatriz[1][1] = 'O';
-            auxpossibilidades[4] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[1][1] = ' ';
-        }
-        if(jogadaEhValida(matriz, 23)){
-            auxmatriz[1][2] = 'O';
-            auxpossibilidades[5] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[1][2] = ' ';
-        }
-        if(jogadaEhValida(matriz, 31)){
-            auxmatriz[2][0] = 'O';
-            auxpossibilidades[6] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[2][0] = ' ';
-        }
-        if(jogadaEhValida(matriz, 32)){
-            auxmatriz[2][1] = 'O';
-            auxpossibilidades[7] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[2][1] = ' ';
-        }
-        if(jogadaEhValida(matriz, 33)){
-            auxmatriz[2][2] = 'O';
-            auxpossibilidades[8] = minmax(auxmatriz, !maquinaJoga);
-            auxmatriz[2][2] = ' ';
+    if(gameOver(auxmatriz) != 0) //se o jogo acabou, retorna o resultado
+        return gameOver(auxmatriz);
+    else if(acabou)
+        return 0;
+    //o jogo simulado ainda nao acabou, tem que ver os melhores caminhos (ou menos piores)
+    for(i=0; i<9; i++){ //forma o vetor de todas as jogadas possiveis
+        jogada = converte(i);
+        if(jogadaEhValida(auxmatriz, jogada)){
+            auxmatriz[(jogada/10) - 1][(jogada%10) -1] = jogador;
+            auxpossibilidades[i] = minmax(auxmatriz, !maquinaJoga);
+            auxmatriz[(jogada/10) - 1][(jogada%10) -1] = ' ';
         }
     }
-    for(i=0; i<9; i++){
-        if(auxpossibilidades[i] <= min) //queremos a pior jogada
-            min = auxpossibilidades[i];
+    //min = auxpossibilidades[0];
+    if(!maquinaJoga){
+        min = 3;
+        for(i=0; i<9; i++){
+            if(auxpossibilidades[i] <= min && auxpossibilidades[i] != -2){ //queremos a pior jogada
+                min = auxpossibilidades[i];
+                if(jogadaEhValida(auxmatriz, converte(i))){
+                    jogada = converte(i);
+                }
+            }
+        }
     }
-    return min;
+    else {
+        min = -3; //aqui na verdade é max
+        for(i=0; i<9; i++){
+            if(auxpossibilidades[i] >= min){ 
+                min = auxpossibilidades[i];
+                if(jogadaEhValida(auxmatriz, converte(i))){
+                    jogada = converte(i);
+                }
+            }
+        }
+    }
+    //Aqui faz a jogada e retorna a melhor/menos pior jogadaEhValida
+    auxmatriz[(jogada/10) - 1][(jogada%10) -1] = jogador;
+    //printf("supos jogada\n.");
+    //if(maquinaJoga)
+        return minmax(auxmatriz, !maquinaJoga);
+    //else return -minmax(auxmatriz, !maquinaJoga);
 }
 
 
@@ -422,7 +160,7 @@ void main (){
     loop = 1;
     jogada = 0;
     maquinaJoga = FALSE;
-    maximo = -5;
+    maximo = -300000;
     for(i=0; i<3; i++){
         for(j=0; j<3; j++){
             matriz[i][j] = ' ';
@@ -433,13 +171,16 @@ void main (){
 
 
     //Jogo
-    printf("\t\tTIC-TAC-TOE\n\n");
+    printf("\n\n\t\t\tTIC-TAC-TOE\n\n");
     printf("\t\tAperte enter para comecar...\n");
     getchar();
     imprimeJogo(matriz);
-    while(loop < 8){
+
+    //loop principal do jogo
+    while(loop < 6){
+        maquinaJoga = FALSE;
         for(i=0; i<9;i++)
-            possibilidades[i] = -3;
+            possibilidades[i] = -2; //Se o vetor de possibilidades tiver algum -2, nao atualizou
         printf("\t\tDigite a posicao da matriz onde se deseja jogar o X\n");
         do{
             scanf(" %d", &jogada);
@@ -450,96 +191,44 @@ void main (){
             printf("Jogada ilegal! Tente novamente.\n");
         }while(!jogadaEhValida(matriz, jogada));
         maquinaJoga = TRUE;
-        maximo = -5;
-        for(i=0; i<9;i++){
-            possibilidades[i] = minmax(matriz, maquinaJoga);
-            printf("%d ", possibilidades[i]);
-        }
-        printf("\n");
-        //Agora analisa o vetor de possibilidades e ve qual a jogada menos pior =]
-        for(i=0;i<9;i++){
-            if(possibilidades[i] >= maximo){
-                maximo = possibilidades[i];
-                //antes de atribuir a jogada, verificar se ela é legal
-                switch(i){
-            case 0:
-                if(jogadaEhValida(matriz, 11)){
-                    jogadaLegal = i;
-                    printf("ninja\n");
-                }
-                break;
-            case 1:
-                if(jogadaEhValida(matriz, 12))
-                    jogadaLegal = i;
-                break;
-            case 2:
-                if(jogadaEhValida(matriz, 13))
-                    jogadaLegal = i;
-                break;
-            case 3:
-                if(jogadaEhValida(matriz, 21))
-                    jogadaLegal = i;
-                break;
-            case 4:
-                if(jogadaEhValida(matriz, 22))
-                    jogadaLegal = i;
-                break;
-            case 5:
-                if(jogadaEhValida(matriz, 23))
-                    jogadaLegal = i;
-                break;
-            case 6:
-                if(jogadaEhValida(matriz, 31))
-                    jogadaLegal = i;
-                break;
-            case 7:
-                if(jogadaEhValida(matriz, 32))
-                    jogadaLegal = i;
-                break;
-            case 8:
-                if(jogadaEhValida(matriz, 33))
-                    jogadaLegal = i;
-                break;
-                
-                }
+        maximo = -3;
+        //calcula o valor para todas as possibilidades de jogadas
+
+        for(i=0; i<9; i++){
+            jogada = converte(i);
+            if(jogadaEhValida(matriz, jogada)){
+                matriz[(jogada/10) - 1][(jogada%10) -1] = 'O';
+                possibilidades[i] = minmax(matriz, !maquinaJoga);
+                matriz[(jogada/10) - 1][(jogada%10) -1] = ' ';
             }
         }
-        switch(jogadaLegal){
-            case 0:
-                matriz[0][0] = 'O';
-                break;
-            case 1:
-                matriz[0][1] = 'O';
-                break;
-            case 2:
-                matriz[0][2] = 'O';
-                break;
-            case 3:
-                matriz[1][0] = 'O';
-                break;
-            case 4:
-                matriz[1][1] = 'O';
-                break;
-            case 5:
-                matriz[1][2] = 'O';
-                break;
-            case 6:
-                matriz[2][0] = 'O';
-                break;
-            case 7:
-                matriz[2][1] = 'O';
-                break;
-            case 8:
-                matriz[2][2] = 'O';
-                break;
-        }
-    
-    
-    
+
+        for(i=0; i<9; i++)
+            printf("%d ", possibilidades[i]);
+        printf("\n");
+        //printf("%d\n", loop);
+        //Agora analisa o vetor de possibilidades e ve qual a jogada menos pior =]
+
+        for(i=0;i<9;i++){
+                if(possibilidades[i] > maximo && possibilidades[i] != -2){
+                    //maximo = possibilidades[i];
+                    //antes de atribuir a jogada, verificar se ela é legal
+                    if(jogadaEhValida(matriz, converte(i))){
+                        jogadaLegal = i;
+                        maximo = possibilidades[i];
+                        //if(possibilidades[i] == 2)
+                        //    break;
+                        //printf("ninja\n");
+                    }
+                }
+            }
+            jogadaLegal = converte(jogadaLegal);
+            matriz[(jogadaLegal/10) - 1][(jogadaLegal%10) -1] = 'O'; //joga de fato
+        
+        
     
         imprimeJogo(matriz);
-        loop++;
-        
+        loop++;    
         //poe o resultado
         if ((matriz[0][0] == 'X' && matriz[1][0] == 'X' && matriz[2][0] == 'X') ||
             (matriz[0][1] == 'X' && matriz[1][1] == 'X' && matriz[2][1] == 'X') ||
@@ -563,7 +252,7 @@ void main (){
             printf("\t\t\t\tVoce perdeu!   =[\n");
             break; //é bom para a AI
         }
-        if(loop == 8){
+        if(loop == 6){
             printf("\n\n\t\t\t\t*****Empate!*******\n");
         }
         
