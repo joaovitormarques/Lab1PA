@@ -117,7 +117,6 @@ int minmax(char matriz[3][3], int maquinaJoga){
             auxmatriz[(jogada/10) - 1][(jogada%10) -1] = ' ';
         }
     }
-    //min = auxpossibilidades[0];
     if(!maquinaJoga){
         min = 3;
         for(i=0; i<9; i++){
@@ -140,12 +139,9 @@ int minmax(char matriz[3][3], int maquinaJoga){
             }
         }
     }
-    //Aqui faz a jogada e retorna a melhor/menos pior jogadaEhValida
+    //Aqui faz a jogada e retorna a melhor/menos pior jogada válida
     auxmatriz[(jogada/10) - 1][(jogada%10) -1] = jogador;
-    //printf("supos jogada\n.");
-    //if(maquinaJoga)
-        return minmax(auxmatriz, !maquinaJoga);
-    //else return -minmax(auxmatriz, !maquinaJoga);
+    return minmax(auxmatriz, !maquinaJoga);
 }
 
 
@@ -206,19 +202,14 @@ void main (){
         for(i=0; i<9; i++)
             printf("%d ", possibilidades[i]);
         printf("\n");
-        //printf("%d\n", loop);
         //Agora analisa o vetor de possibilidades e ve qual a jogada menos pior =]
 
         for(i=0;i<9;i++){
                 if(possibilidades[i] > maximo && possibilidades[i] != -2){
-                    //maximo = possibilidades[i];
                     //antes de atribuir a jogada, verificar se ela é legal
                     if(jogadaEhValida(matriz, converte(i))){
                         jogadaLegal = i;
                         maximo = possibilidades[i];
-                        //if(possibilidades[i] == 2)
-                        //    break;
-                        //printf("ninja\n");
                     }
                 }
             }
